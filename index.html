@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nusantara Mart</title>
+
+    <!-- css -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- header -->
+    <header>
+      <div class="logo">Nusantara<span>Mart</span></div>
+      <nav class="navbar" id="navbar">
+        <a href="#beranda" onclick="tutupMenu()">Beranda</a>
+        <a href="#info" onclick="tutupMenu()">Info</a>
+        <a href="#produk" onclick="tutupMenu()">Produk</a>
+        <a href="#kontak" onclick="tutupMenu()">Kontak</a>
+      </nav>
+
+      <div class="nav-icons">
+        <i
+          class="fa-regular fa-heart"
+          onclick="bukaFavorit()"
+          style="cursor: pointer"
+        >
+        </i>
+        <div style="position: relative">
+          <i
+            class="fa-solid fa-cart-shopping"
+            onclick="bukaKeranjang()"
+            style="cursor: pointer"
+          >
+          </i>
+          <span class="cart-count" id="jumlah-cart">0</span>
+        </div>
+
+        <!-- hamburger (mobile) -->
+        <div class="hamburger" onclick="toggleMenu()">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+      </div>
+    </header>
+
+    <!-- beranda -->
+    <section id="beranda" class="home">
+      <div>
+        <h1>Belanja Produk Indonesia, Mudah dari Seoul</h1>
+        <p>
+          Nusantara Mart menghadirkan produk Indonesia berkualitas dengan
+          pengalaman belanja online modern di Seoul
+        </p>
+        <button class="btn" onclick="document.getElementById('produk').scrollIntoView()">Belanja Sekarang</button>
+      </div>
+    </section>
+
+    <!-- info -->
+    <section id="info" class="container">
+      <h2>Tentang Kami</h2>
+      <p style="text-align: center; max-width: 700px; margin: 0 auto">
+        Nusantara Mart adalah marketplace berbasis di Seoul yang menyediakan
+        beragam produk Indonesia sehari-hari dengan kualitas terpercaya. Mulai
+        dari kebutuhan rumah tangga, perawatan pribadi, hingga makanan dan
+        minuman populer, kami menghadirkan pilihan lengkap agar konsumen di
+        Seoul dapat belanja produk Indonesia secara online dengan mudah dan
+        nyaman. <br></br>
+        Kami berkomitmen menjadi jembatan antara produk Indonesia
+        berkualitas dan masyarakat global, khususnya di Korea Selatan. Dengan
+        sistem belanja online yang praktis, aman, dan cepat, Nusantara Mart
+        memastikan pengalaman belanja yang modern sekaligus menghadirkan rasa
+        dekat dengan Indonesia. <br></br> 
+        Visi kami adalah menjadikan produk Indonesia
+        semakin dikenal dan dicintai, serta menghadirkan solusi belanja yang
+        sederhana, terpercaya, dan relevan dengan kebutuhan sehari-hari.
+      </p>
+    </section>
+
+    <!-- promo -->
+    <section class="container">
+      <h2>
+        Promo Spesial Ramadhan
+        <i class="fa-solid fa-fire" style="color: rgb(233, 165, 75)"></i>
+      </h2>
+      <div class="promo-scroll" id="promo-container"></div>
+    </section>
+
+    <!-- produk -->
+    <section id="produk" class="container">
+      <h2>Katalog Produk</h2>
+
+      <!-- search & filter -->
+      <div class="search-filter">
+        <input
+          type="text"
+          id="cari"
+          placeholder="Cari produk..."
+          onkeyup="filterProduk()"
+        />
+        <br></br>
+        <button class="filter-btn active" onclick="pilihKategori('all', this)">
+          Semua
+        </button>
+
+        <button class="filter-btn" onclick="pilihKategori('snack', this)">
+          Snack
+        </button>
+
+        <button class="filter-btn" onclick="pilihKategori('bahan', this)">
+          Bahan Makanan Instan
+        </button>
+
+        <button class="filter-btn" onclick="pilihKategori('kesehatan', this)">
+          Kesehatan
+        </button>
+        <br></br>
+        <!-- tempat produk ditampilkan -->
+        <div class="produk-grid" id="daftar-produk"></div>
+      </div>
+    </section>
+
+    <!-- kontak -->
+    <section id="kontak" class="container">
+      <h2>Hubungi Kami</h2>
+      <div style="text-align: center">
+        <p><i class="fa-solid fa-location-dot"></i>Seoul, Korea Selatan</p>
+        <p><i class="fa-solid fa-phone"></i>+82 10 1234 5678</p>
+        <p><i class="fa-solid fa-envelope"></i></i>hello@nusantaramart.kr</p>
+      </div>
+    </section>
+
+    <footer>
+      <p>&copy; 2023 Nusantara Mart - Seoul, Korea Selatan</p>
+    </footer>
+
+    <!-- modal keranjang -->
+    <div id="modal-keranjang" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Keranjang Belanja</h2>
+          <span class="close" onclick="tutupModal('modal-keranjang')"
+            >&times;</span
+          >
+        </div>
+        <div id="isi-keranjang"></div>
+        <div class="cart-total" id="total-harga">Total: ₩0</div>
+        <button
+          class="btn"
+          style="width: 100%; margin-top: 15px"
+          onclick="bayar()"
+        >
+          Bayar
+        </button>
+      </div>
+    </div>
+
+    <!-- modal favorit -->
+    <div class="modal" id="modal-fav">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>ProdukFavorit</h2>
+          <span class="close" onclick="tutupModal('modal-fav')">&times;</span>
+        </div>
+        <div id="isi-fav"></div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
